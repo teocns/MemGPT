@@ -1018,3 +1018,18 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,linux,macos,pydev,python,eclipse,pycharm,windows,netbeans,pycharm+all,pycharm+iml,visualstudio,jupyternotebooks,visualstudiocode,xcode,xcodeinjection
+
+.nx/installation
+.nx/cache
+.aider*
+.datasets
+nx
+.python-version
+.nx/
+**/openapi_memgpt.json
+**/openapi_assistants.json
+nx.bat
+nx.json
+openapi.yaml
+**/static_files/assets/*.js
+memgpt/server/*
