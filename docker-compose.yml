@@ -1,0 +1,63 @@
+---
+version: '3.8'
+services:
+  pgvector:
+    # image: pgvector/pgvector:pg16
+    container_name: pgvector
+    hostname: postgres
+    networks:
+      - memgpt
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+    environment:
+      POSTGRES_PASSWORD: postgres
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_DB: postgres
+    # networks:
+    #   - metagpt
+    ports:
+      - "8888:5432"
+    volumes:
+      - type: volume
+        source: pgvector-data
+        target: "/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${postgres}"]
+      interval: 10s
+      timeout: 30s
+      retries: 10
+  memgpt-server:
+    networks:
+      - memgpt
+    container_name: memgpt-server
+    hostname: memgpt-server
+    environment:
+      MEMGPT_SERVER_PASS: 1234
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8283:8083"
+volumes:
+  pgvector-data:
+    # Binds to ~/.memgpt/pgvector_db
+    name: pgvector-data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/.cache/pgvector
+  memgpt-data:
+    name: memgpt-data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/.memgpt
+networks:
+  memgpt:
