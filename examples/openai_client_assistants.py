@@ -14,7 +14,7 @@ def main():
     assistant = client.beta.assistants.create(
         name="Math Tutor",
         instructions="You are a personal math tutor. Write and run code to answer math questions.",
-        model="gpt-4-turbo-preview",
+        model="gpt-4",
     )
 
     # create thread (creates a memgpt agent)
@@ -22,7 +22,7 @@ def main():
 
     # create a message (appends a message to the memgpt agent)
     message = client.beta.threads.messages.create(
-        thread_id=thread.id, role="user", content="I need to solve the equation `3x + 11 = 14`. Can you help me?"
+        thread_id=thread.id, role="user", content="Solve the equation 2x - 4 = 6"
     )
 
     # create a run (executes the agent on the messages)
